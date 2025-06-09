@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPY Pivot Dashboard</title>
+  <style>
+    :root {
+      --accent: #00ffe7;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0 0 40px 0;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      background: radial-gradient(circle at center, #06101a 0%, #02080f 100%);
+      color: #ffffff;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='0' y1='40' x2='40' y2='0' stroke='%2300cfff' stroke-opacity='0.08' stroke-width='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      animation: gridMove 120s linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes gridMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+
+    .fact-banner {
+      font-size: 1.3em;
+      color: #ffcccb;
+      margin-top: 22px;
+      margin-bottom: 12px;
+      padding: 0 12px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 0 4px #ffcccb55;
+    }
+
+    h1 {
+      font-size: 2.4em;
+      margin-top: 0;
+      margin-bottom: -4px;
+      z-index: 1;
+      position: relative;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    }
+
+    #spy-price {
+      font-size: 4.5em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #ffffff;
+      text-shadow: 0 0 20px #ffffff55;
+      position: relative;
+      z-index: 1;
+    }
+
+    #toggle-sub {
+      font-size: 0.9em;
+      color: #00e0ff;
+      margin-bottom: 30px;
+      font-weight: normal;
+      z-index: 1;
+      position: relative;
+    }
+
+    .pivot-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      width: 280px;
+      height: 280px;
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .lower-card {
+      background: linear-gradient(135deg, #2e003e, #0f0017);
+      color: #e0c9ff;
+      box-shadow: 0 0 20px rgba(208, 156, 255, 0.3);
+    }
+
+    .upper-card {
+      background: linear-gradient(135deg, #999999, #4d4d4d);
+      color: #f2f2f2;
+      box-shadow: 0 0 22px rgba(220, 220, 220, 0.3);
+    }
+
+    .card h2 {
+      font-size: 1.7em;
+      margin-bottom: 15px;
+      margin-top: 5px;
+    }
+
+    .pivot-value {
+      font-size: 4.6em;
+      font-weight: bold;
+      user-select: none;
+    }
+
+    .confidence {
+      font-size: 1.3em;
+      margin-top: 12px;
+      opacity: 0.95;
+      user-select: none;
+    }
+
+    .instructions {
+      font-size: 1.3em;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .strategy-section {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+      padding: 0 20px;
+    }
+
+    .dropdown {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid #00cfff44;
+      border-radius: 12px;
+      margin: 15px 0;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+      cursor: pointer;
+    }
+
+    .dropdown:hover {
+      box-shadow: 0 0 14px rgba(0, 255, 255, 0.2);
+    }
+
+    .dropdown-content {
+      margin-top: 10px;
+      font-size: 0.95em;
+      line-height: 1.5em;
+      display: none;
+    }
+
+    .dropdown.open .dropdown-content {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .fact-banner {
+        margin-top: 18px;
+        margin-bottom: 18px;
+      }
+
+      h1 {
+        margin-bottom: 0px;
+      }
+
+      #spy-price {
+        font-size: 3em;
+        margin-bottom: 10px;
+      }
+
+      .pivot-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .card {
+        width: 80%;
+        height: auto;
+      }
+
+      .pivot-value {
+        font-size: 3em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="fact-banner">
+    No data is currently displayed. This may be due to paused updates during expected volatility, outside pivot trading hours (9:45 AM – 2:00 PM EST), or market closure. Please check back soon.
+  </div>
+
+  <h1>SPY Price</h1>
+  <div id="spy-price">---</div>
+  <div id="toggle-sub">Data feed offline</div>
+
+  <div class="pivot-container">
+    <div class="card lower-card">
+      <h2>Lower Pivot</h2>
+      <div class="pivot-value">---</div>
+      <div class="confidence"></div>
+    </div>
+    <div class="card upper-card">
+      <h2>Upper Pivot</h2>
+      <div class="pivot-value">---</div>
+      <div class="confidence"></div>
+    </div>
+  </div>
+
+  <div class="instructions">Trading Strategies</div>
+  <div class="strategy-section">
+    <div class="dropdown" onclick="toggleDropdown(this)">
+      <strong>SPY Options Strategy</strong>
+      <div class="dropdown-content">
+        Only use <strong>medium to high confidence</strong> pivots.<br>
+        At <strong>Lower Pivots</strong>, go <strong>long / buy Calls</strong>.<br>
+        At <strong>Upper Pivots</strong>, go <strong>short / buy Puts</strong>.<br><br>
+        Enter when SPY is <strong>$0.12–$0.18</strong> away from the pivot.<br>
+        Contracts should be priced between <strong>$0.80–$1.00</strong>.<br>
+        Take profit or stop loss at <strong>15%</strong> move.<br><br>
+        <em>Example:</em> Lower Pivot is <strong>529.00</strong>, SPY trades at <strong>528.85</strong> → Buy a <strong>Call at $0.90</strong>, sell at $1.04 or $0.76.
+      </div>
+    </div>
+
+    <div class="dropdown" onclick="toggleDropdown(this)">
+      <strong>SPX Futures Strategy</strong>
+      <div class="dropdown-content">
+        Only use <strong>medium to high confidence</strong> pivots.<br>
+        At <strong>Lower Pivots</strong>, go <strong>long / buy /ES contract</strong>.<br>
+        At <strong>Upper Pivots</strong>, go <strong>short / sell /ES contract</strong>.<br><br>
+        Enter when SPX is <strong>$1.2–$1.8</strong> away from the pivot.<br>
+        Take profit and stop loss at <strong>5-point move</strong>.<br><br>
+        <em>Example:</em> Upper Pivot is <strong>5340</strong>, SPX trades at <strong>5338.2</strong> → Enter <strong>short /ES</strong>, exit at 5333.2 or 5343.2.
+      </div>
+    </div>
+
+    <div class="dropdown" onclick="toggleDropdown(this)">
+      <strong>SPY Options Writing Strategy</strong>
+      <div class="dropdown-content">
+        Only use <strong>medium to high confidence</strong> pivots.<br>
+        At <strong>Upper Pivots</strong>, <strong>sell Calls</strong>.<br>
+        At <strong>Lower Pivots</strong>, <strong>sell Puts</strong>.<br><br>
+        Choose contracts priced between <strong>$0.80–$1.00</strong>.<br>
+        Take profit when premium drops by <strong>$0.30</strong>.<br>
+        If the trade doesn’t work, <strong>hold through expiration</strong> and let <strong>theta decay</strong> work in your favor — no stop needed.<br><br>
+        <em>Example:</em> Upper Pivot is <strong>5340</strong>, SPY trades at <strong>5339.8</strong> → Sell a <strong>Call at $0.90</strong>, exit at $0.60 or hold if it increases.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown(el) {
+      el.classList.toggle("open");
+    }
+  </script>
+</body>
+</html>
