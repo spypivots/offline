@@ -40,15 +40,15 @@
     }
 
     .fact-banner {
-      font-size: 1.3em;
-      color: #ffcccb;
-      margin-top: 22px;
-      margin-bottom: 12px;
-      padding: 0 12px;
-      position: relative;
-      z-index: 1;
-      text-shadow: 0 0 4px #ffcccb55;
-    }
+  font-size: 1.3em;
+  color: #00e0ff;
+  margin-top: 22px;
+  margin-bottom: 12px;
+  padding: 0 12px;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 4px #00e0ff55;
+}
 
     h1 {
       font-size: 2.4em;
@@ -269,6 +269,30 @@
     function toggleDropdown(el) {
       el.classList.toggle("open");
     }
+    const liveURL = "https://spy-pivots.live";
+  const testEndpoint = `${liveURL}/pivot`;
+
+  function checkLiveStatus() {
+    fetch(testEndpoint, { method: 'GET', cache: 'no-store' })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = liveURL;
+        }
+      })
+      .catch(() => {
+        // Still offline — do nothing, check again on next interval
+      });
+  }
+
+  // Check immediately
+  checkLiveStatus();
+
+  // Then re-check every 5 seconds
+  setInterval(checkLiveStatus, 5000);
+
+  function toggleDropdown(el) {
+    el.classList.toggle("open");
+  }
   </script>
 </body>
 </html>
