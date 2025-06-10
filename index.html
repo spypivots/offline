@@ -218,39 +218,46 @@
       }
     }
     .fact-banner-marquee {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 36px;
   background: transparent;
   color: #00e0ff;
   font-size: 1.3em;
-  padding: 12px 0;
-  overflow: hidden;
-  white-space: nowrap;
-  box-shadow: none;
   z-index: 2;
-  position: relative;
 }
 
-.fact-banner-marquee span {
+.marquee-track {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-text 30s linear infinite;
-  will-change: transform;
-  padding-right: 100vw;
+  animation: scroll-loop 25s linear infinite;
 }
 
-@keyframes scroll-text {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+.marquee-track span {
+  display: inline-block;
+  padding-right: 100px;
 }
 
+@keyframes scroll-loop {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 
   </style>
 </head>
 <body>
   <div class="fact-banner-marquee">
-  <span>
-    Live data feed is currently paused. This may be due to scheduled downtime, expected market volatility, market closure, or because it's outside the regular pivot trading window (9:45 AM to 2:00 PM EST). Please check back later.
-  </span>
+  <div class="marquee-track">
+    <span>Live data feed is currently paused. This may be due to scheduled downtime, expected market volatility, market closure, or because it's outside the regular pivot trading window (9:45 AM to 2:00 PM EST). Please check back later. &nbsp;&nbsp;&nbsp;</span>
+    <span>Live data feed is currently paused. This may be due to scheduled downtime, expected market volatility, market closure, or because it's outside the regular pivot trading window (9:45 AM to 2:00 PM EST). Please check back later.</span>
+  </div>
 </div>
+
 
 
   <h1 id="ticker-title">SPY Price</h1>
