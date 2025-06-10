@@ -174,10 +174,9 @@
       display: block;
     }
 .switch-btn {
-  background: #00e0ff22;
-  border: 1px solid #00e0ff66;
+  background: none;
+  border: none;
   padding: 8px 16px;
-  border-radius: 10px;
   color: #00e0ff;
   font-size: 0.95em;
   cursor: pointer;
@@ -232,14 +231,17 @@
 
 .fact-banner-marquee span {
   display: inline-block;
-  padding-left: 100%;
+  white-space: nowrap;
   animation: scroll-text 30s linear infinite;
+  will-change: transform;
+  padding-right: 100vw;
 }
 
 @keyframes scroll-text {
-  0% { transform: translateX(0); }
+  0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
 }
+
 
   </style>
 </head>
@@ -251,9 +253,10 @@
 </div>
 
 
-  <h1>SPY Price</h1>
-  <div id="spy-price">---</div>
-<button class="switch-btn" onclick="alert('This is a visual toggle only. Live data unavailable.')">Switch to SPX</button>
+  <h1 id="ticker-title">SPY Price</h1>
+<div id="spy-price">---</div>
+<div id="toggle-sub" class="switch-btn" onclick="toggleTicker()">Switch to SPX</div>
+
 
 
   <div class="pivot-container">
@@ -348,6 +351,13 @@ toggleBtn.addEventListener("touchstart", () => {
     toggleBtn.style.textShadow = "";
   }, 2000);
 });
+let isSPY = true;
+
+function toggleTicker() {
+  isSPY = !isSPY;
+  document.getElementById("ticker-title").textContent = isSPY ? "SPY Price" : "SPX Price";
+  document.getElementById("toggle-sub").textContent = isSPY ? "Switch to SPX" : "Switch to SPY";
+}
 
   </script>
 </body>
