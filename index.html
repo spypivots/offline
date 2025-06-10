@@ -262,7 +262,8 @@
 
   <h1 id="ticker-title">SPY Price</h1>
 <div id="spy-price">---</div>
-<div id="toggle-sub" class="switch-btn" onclick="toggleTicker()">Switch to SPX</div>
+<div id="toggle-sub" class="switch-btn" onclick="toggleTicker()">Click to switch to SPX</div>
+
 
 
 
@@ -363,7 +364,7 @@ let isSPY = true;
 function toggleTicker() {
   isSPY = !isSPY;
   document.getElementById("ticker-title").textContent = isSPY ? "SPY Price" : "SPX Price";
-  document.getElementById("toggle-sub").textContent = isSPY ? "Switch to SPX" : "Switch to SPY";
+  document.getElementById("toggle-sub").textContent = isSPY ? "Click to switch to SPX" : "Click to switch to SPY";
 }
 
   </script>
