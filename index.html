@@ -330,17 +330,22 @@
     const liveURL = "https://spy-pivots.live";
   const testEndpoint = `${liveURL}/pivot`;
 
-  function checkLiveStatus() {
-    fetch(testEndpoint, { method: 'GET', cache: 'no-store' })
-      .then(response => {
-        if (response.ok) {
-          window.location.href = liveURL;
-        }
-      })
-      .catch(() => {
-        // Still offline — do nothing, check again on next interval
-      });
-  }
+function checkLiveStatus() {
+  fetch(testEndpoint, { method: 'GET', cache: 'no-store' })
+    .then(response => response.json())
+    .then(data => {
+      if (
+        data &&
+        (!data.fallback_override || data.fallback_override.toLowerCase() !== "x")
+      ) {
+        window.location.href = liveURL;
+      }
+    })
+    .catch(() => {
+      // Still offline — stay on fallback
+    });
+}
+
 
   // Check immediately
   checkLiveStatus();
